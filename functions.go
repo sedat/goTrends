@@ -74,12 +74,7 @@ func InterestOverTime(data DataHouse) []byte {
 	u.Add("token", data.Trends[0].Token)
 	url.RawQuery = u.Encode()
 
-	req, err := http.NewRequest("GET", url.String(), nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	setHeaders(req)
+	req := setRequest(url)
 
 	newclient := &http.Client{}
 
@@ -101,12 +96,7 @@ func InterestBySubregion(data DataHouse, resolution string) []byte {
 	u.Add("token", data.Trends[1].Token)
 	url.RawQuery = u.Encode()
 
-	req, err := http.NewRequest("GET", url.String(), nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	setHeaders(req)
+	req := setRequest(url)
 
 	newclient := &http.Client{}
 
@@ -127,12 +117,7 @@ func RelatedTopics(data DataHouse) []byte {
 	u.Add("token", data.Trends[2].Token)
 	url.RawQuery = u.Encode()
 
-	req, err := http.NewRequest("GET", url.String(), nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	setHeaders(req)
+	req := setRequest(url)
 
 	newclient := &http.Client{}
 
@@ -153,12 +138,7 @@ func RelatedQueries(data DataHouse) []byte {
 	u.Add("token", data.Trends[3].Token)
 	url.RawQuery = u.Encode()
 
-	req, err := http.NewRequest("GET", url.String(), nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	setHeaders(req)
+	req := setRequest(url)
 
 	newclient := &http.Client{}
 
@@ -177,4 +157,15 @@ func setHeaders(req *http.Request) {
 	req.Header.Set("authority", "trends.google.com.tr")
 	req.Header.Set("cookie", "__utma=10102256.1714845982.1553849901.1554383869.1554454359.8; __utmc=10102256; __utmz=10102256.1554454359.8.7.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); __utmt=1; __utmb=10102256.11.9.1554455265495; CONSENT=YES+TR.en+20161030-06-0; OGPC=19007347-1:; ANID=AHWqTUlEGxeLOO4BknJq4Afe_2xUg1NV8jnEpDkpFosBVIB6Qz9_QOwyHZUx-six; SID=QQfyBHW7nyB1yotHupAlTv0UYHeTxMwPWLpeTGnl7fNOv0refD81Lfg_dyZRplijV1LvHA.; HSID=AgoTcoa6fP2vUhrxp; SSID=Adu5aLZOA7buuMWyJ; APISID=a-8INBlBcUTInJCE/AfC1NEOmozqUrmign; SAPISID=yo1Q0nmSr7rnpFqO/AfyAZGvKCS0uJEDBG; NID=180=K4wWbY2CRVOMeDLRG-bcp0HVxdrJ6RbTqx7ciWLHBV0Fcb-iyQAWzQSAJi5p3oz3nBalENs7FJsXrHdDHzveTwevD5wFfGLFu2oeD0KfGsi6epqbZ4OOBFVSdmZ8zoXlIQt0TMoUOds2VyLmov4WC2nZJUC4fw9u2XD8V-M1pZz8nJn6HlzVvfIW7LGDbyS0AV5X-9eb6NQDNLKkUUFPwzW5T-N3cjsQEVOXNYdAURQt-CmuuybjBq_K6ZRt-k5671DrRw; 1P_JAR=2019-4-5-9; SIDCC=AN0-TYtOTxXzDiNdQnzUzfDPMq2Dl6dwBYMgCHewmTb2u1yd51X1WMURD1ZYyrwu-MkSHqD5gCI")
 	req.Header.Set("x-client-data", "CIy2yQEIprbJAQipncoBCKijygEIsafKAQjiqMoBCK+sygE=")
+}
+
+func setRequest(url *url.URL) *http.Request {
+	req, err := http.NewRequest("GET", url.String(), nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	setHeaders(req)
+
+	return req
 }
